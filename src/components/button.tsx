@@ -4,7 +4,9 @@ import React from "react";
 interface ButtonProps
   extends
     Omit<React.ComponentProps<"button">, "disabled">,
-    VariantProps<typeof buttonVarriant> {}
+    VariantProps<typeof buttonVarriant> {
+  title: string;
+}
 
 const buttonVarriant = cva(
   `
@@ -33,6 +35,7 @@ const buttonVarriant = cva(
 const Button: React.FC<ButtonProps> = ({
   disabled,
   variant,
+  title,
   size,
   ...rest
 }) => {
@@ -42,7 +45,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled === null ? undefined : disabled}
       {...rest}
     >
-      Click me
+      {title}
     </button>
   );
 };

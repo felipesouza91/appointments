@@ -1,13 +1,9 @@
-import Appointments from "./components/Appointments";
-import ScheduleForm from "./components/ScheduleForm";
+import HomeScreen from "./screens/Home";
 
 function App() {
   return (
     <main className="flex items-center justify-center bg-gray-900 h-screen p-3">
-      <div className="grid grid-cols-3 gap-3 ">
-        <ScheduleForm />
-        <Appointments />
-      </div>
+      <HomeScreen />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 import { SunDimIcon } from "@phosphor-icons/react";
 import React from "react";
-import IconButton from "./icon-button";
+import IconButton from "../../components/icon-button";
 
 const Appointments: React.FC = () => {
   return (

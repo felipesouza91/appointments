@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @layer base {
-  html {
+  html,
+  input {
     font-family: "Catamaran", sans-serif;
   }
 }

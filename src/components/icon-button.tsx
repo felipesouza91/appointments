@@ -13,15 +13,17 @@ import { cva, cx, type VariantProps } from "class-variance-authority";
 import React from "react";
 
 const ICON_OPTIONS = {
-  SunHorizen: <SunHorizonIcon size={32} weight="bold" />,
-  CloudSun: <CloudSunIcon size={32} weight="bold" />,
-  UseSquare: <UserSquareIcon size={32} weight="bold" />,
-  MoonStars: <MoonStarsIcon size={32} weight="bold" />,
-  CaretDown: <CaretDownIcon size={32} weight="bold" />,
-  CalendarBlank: <CalendarBlankIcon size={32} weight="bold" />,
-  CaretRight: <CaretRightIcon size={32} weight="bold" />,
-  CaretLeft: <CaretLeftIcon size={32} weight="bold" />,
-  Trash: <TrashIcon size={32} weight="bold" />,
+  SunHorizen: (size: number) => <SunHorizonIcon size={size} weight="bold" />,
+  CloudSun: (size: number) => <CloudSunIcon size={size} weight="bold" />,
+  UseSquare: (size: number) => <UserSquareIcon size={size} weight="bold" />,
+  MoonStars: (size: number) => <MoonStarsIcon size={size} weight="bold" />,
+  CaretDown: (size: number) => <CaretDownIcon size={size} weight="bold" />,
+  CalendarBlank: (size: number) => (
+    <CalendarBlankIcon size={size} weight="bold" />
+  ),
+  CaretRight: (size: number) => <CaretRightIcon size={size} weight="bold" />,
+  CaretLeft: (size: number) => <CaretLeftIcon size={size} weight="bold" />,
+  Trash: (size: number) => <TrashIcon size={size} weight="bold" />,
 };
 
 const iconButtonVarriant = cva(
@@ -39,16 +41,18 @@ interface IconButtonProps
     Omit<React.ComponentProps<"button">, "disabled">,
     VariantProps<typeof iconButtonVarriant> {
   icon: IconOptions;
+  iconSize: number;
 }
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
   size,
+  iconSize,
   className,
   ...rest
 }) => {
   return (
     <button className={cx(iconButtonVarriant({ size }), className)} {...rest}>
-      {ICON_OPTIONS[icon]}
+      {ICON_OPTIONS[icon](iconSize)}
     </button>
   );
 };

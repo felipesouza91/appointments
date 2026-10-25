@@ -40,7 +40,7 @@ const InputText: React.FC<InputTextProps> = ({
       <input
         {...props}
         className={cx(
-          "h-fit text-base text-gray-200 border-none focus:outline-none placeholder:text-base placeholder:text-gray-400 ",
+          "h-fit text-base text-gray-200 border-none focus:outline-none placeholder:text-base placeholder:text-gray-400 w-full",
           className,
         )}
       />

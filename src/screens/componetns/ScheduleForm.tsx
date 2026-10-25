@@ -1,8 +1,8 @@
+import Button from "@/components/button";
+import InputText from "@/components/input-text";
+import SelectButton from "@/components/select-button";
 import { UserSquareIcon } from "@phosphor-icons/react";
 import React from "react";
-import Button from "../../components/button";
-import InputText from "../../components/input-text";
-import SelectButton from "../../components/select-button";
 
 // import { Container } from './styles';
 

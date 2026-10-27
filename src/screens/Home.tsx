@@ -6,7 +6,7 @@ import ScheduleForm from "./componetns/ScheduleForm";
 
 const HomeScreen: React.FC = () => {
   return (
-    <div className="grid grid-cols-3 gap-3 ">
+    <div className="flex flex-col sm:flex-row gap-3">
       <ScheduleForm />
       <Appointments />
     </div>

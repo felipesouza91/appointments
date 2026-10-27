@@ -1,11 +1,24 @@
 import IconButton from "@/components/icon-button";
+import InputDate from "@/components/input-date";
+import { useAppointment } from "@/hooks/appointments.hooks";
 import { SunDimIcon } from "@phosphor-icons/react";
-import React from "react";
+import { format } from "date-fns";
+import React, { useMemo, useState } from "react";
 
 const Appointments: React.FC = () => {
+  const { getAppointmentsFormmated } = useAppointment();
+  const [selectDate, setSelectDate] = useState<Date | null>(new Date());
+
+  const availableAppointments = useMemo(() => {
+    if (!selectDate) return;
+    return getAppointmentsFormmated(selectDate);
+  }, [getAppointmentsFormmated, selectDate]);
+
+  console.log(availableAppointments);
+
   return (
     <div className="flex flex-col py-20 px-28 items-center gap-8 col-span-2 w-full ">
-      <div className="flex flex-row justify-between gap-3 w-full ">
+      <div className="flex flex-col sm:flex-row  justify-between gap-3 w-full ">
         <div className="flex flex-col flex-1 gap-1">
           <h2 className="text-2xl/normal font-bold text-gray-100">
             Sua Agenda
@@ -14,69 +27,60 @@ const Appointments: React.FC = () => {
             Consulte os seus cortes de cabelo agendados por dia
           </span>
         </div>
-        <input type="date" />
+        <InputDate
+          selected={selectDate}
+          dateFormat="dd/MM/yyyy"
+          onChange={setSelectDate}
+        />
       </div>
       <div className="flex flex-col w-full  gap-3">
-        <div className="border border-gray-600 rounded-lg">
-          <div className="flex flex-row items-center justify-between gap-3 py-3 px-5 border-b border-b-gray-600">
-            <div className="flex flex-row flex-1 items-center  gap-3 ">
-              <SunDimIcon size={20} className="text-yellow-dark" />
-              <span className="text-sm/normal text-gray-300">Manha</span>
-            </div>
-            <span className="text-sm/normal text-gray-400">09h-12h</span>
-          </div>
-          <div className="flex flex-col p-5">
-            <div className="flex flex-row">
-              <div className="flex flex-row flex-1 items-center gap-3">
-                <span className="text-base/normal font-bold text-gray-200">
-                  11:00
-                </span>
-                <span className="text-base/normal text-gray-200">Robert</span>
+        {availableAppointments &&
+          Object.entries(availableAppointments).map(([key, data]) => (
+            <div className="border border-gray-600 rounded-lg" key={key}>
+              <div className="flex flex-row items-center justify-between gap-3 py-3 px-5 border-b border-b-gray-600">
+                <div className="flex flex-row flex-1 items-center  gap-3 ">
+                  {key === "0" ? (
+                    <SunDimIcon size={20} className="text-yellow-dark" />
+                  ) : key === "1" ? (
+                    <SunDimIcon size={20} className="text-yellow-dark" />
+                  ) : (
+                    <SunDimIcon size={20} className="text-yellow-dark" />
+                  )}
+                  <span className="text-sm/normal text-gray-300">
+                    {data.title}
+                  </span>
+                </div>
+                <span className="text-sm/normal text-gray-400">09h-12h</span>
               </div>
-              <IconButton icon="Trash" className="text-yellow" iconSize={16} />
-            </div>
-          </div>
-        </div>
-        <div className="border border-gray-600 rounded-lg">
-          <div className="flex flex-row items-center justify-between gap-3 py-3 px-5 border-b border-b-gray-600">
-            <div className="flex flex-row flex-1 items-center  gap-3 ">
-              <SunDimIcon size={20} className="text-yellow-dark" />
-              <span className="text-sm/normal text-gray-300">Tarde</span>
-            </div>
-            <span className="text-sm/normal text-gray-400">13h-18h</span>
-          </div>
-          <div className="flex flex-col p-5">
-            <div className="flex flex-row">
-              <div className="flex flex-row flex-1 items-center gap-3">
-                <span className="text-base/normal font-bold text-gray-200">
-                  11:00
-                </span>
-                <span className="text-base/normal text-gray-200">Robert</span>
+              <div className="flex flex-col p-5">
+                {data.appointments.length === 0 ? (
+                  <div>
+                    <span className="text-base/normal text-gray-200">
+                      Não ha agendamentos para esse periodo
+                    </span>
+                  </div>
+                ) : (
+                  data.appointments.map((appointment) => (
+                    <div className="flex flex-row" key={appointment.id}>
+                      <div className="flex flex-row flex-1 items-center gap-3">
+                        <span className="text-base/normal font-bold text-gray-200">
+                          {format(appointment.scheduleDate, "HH:mm")}
+                        </span>
+                        <span className="text-base/normal text-gray-200">
+                          {appointment.clientName}
+                        </span>
+                      </div>
+                      <IconButton
+                        icon="Trash"
+                        className="text-yellow"
+                        iconSize={16}
+                      />
+                    </div>
+                  ))
+                )}
               </div>
-              <IconButton icon="Trash" className="text-yellow" iconSize={16} />
             </div>
-          </div>
-        </div>
-        <div className="border border-gray-600 rounded-lg">
-          <div className="flex flex-row items-center justify-between gap-3 py-3 px-5 border-b border-b-gray-600">
-            <div className="flex flex-row flex-1 items-center  gap-3 ">
-              <SunDimIcon size={20} className="text-yellow-dark" />
-              <span className="text-sm/normal text-gray-300">Noite</span>
-            </div>
-            <span className="text-sm/normal text-gray-400">19h-21h</span>
-          </div>
-          <div className="flex flex-col p-5">
-            <div className="flex flex-row">
-              <div className="flex flex-row flex-1 items-center gap-3">
-                <span className="text-base/normal font-bold text-gray-200">
-                  11:00
-                </span>
-                <span className="text-base/normal text-gray-200">Robert</span>
-              </div>
-              <IconButton icon="Trash" className="text-yellow" iconSize={16} />
-            </div>
-          </div>
-        </div>
+          ))}
       </div>
     </div>
   );

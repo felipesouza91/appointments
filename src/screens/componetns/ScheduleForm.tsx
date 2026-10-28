@@ -30,7 +30,7 @@ const ScheduleForm: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-6 bg-gray-700 rounded-xl p-20 w-full xl:w-150">
+    <div className="flex flex-col gap-6 bg-gray-700 rounded-xl p-20 xl:w-2/6">
       <div className="flex flex-col">
         <h2 className="text-2xl/normal text-gray-100 font-bold">
           Agende seu atendimento

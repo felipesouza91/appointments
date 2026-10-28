@@ -17,9 +17,9 @@ const Appointments: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-1 flex-col xl:py-20 xl:px-28 items-center gap-8 w-full">
+    <div className="flex flex-1 flex-col xl:py-20 xl:px-28 items-center gap-8 xl:w-5/6">
       <div className="flex flex-col xl:flex-row  justify-between gap-3 w-full ">
-        <div className="flex flex-col flex-1 gap-1">
+        <div className="flex flex-col gap-1">
           <h2 className="text-2xl/normal font-bold text-gray-100">
             Sua Agenda
           </h2>
@@ -27,11 +27,13 @@ const Appointments: React.FC = () => {
             Consulte os seus cortes de cabelo agendados por dia
           </span>
         </div>
-        <InputDate
-          selected={selectDate}
-          dateFormat="dd/MM/yyyy"
-          onChange={setSelectDate}
-        />
+        <div className="w-fit">
+          <InputDate
+            selected={selectDate}
+            dateFormat="dd/MM/yyyy"
+            onChange={setSelectDate}
+          />
+        </div>
       </div>
       <div className="flex flex-col w-full  gap-3">
         {availableAppointments &&

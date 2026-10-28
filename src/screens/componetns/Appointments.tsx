@@ -3,18 +3,18 @@ import InputDate from "@/components/input-date";
 import { useAppointment } from "@/hooks/appointments.hooks";
 import { SunDimIcon } from "@phosphor-icons/react";
 import { format } from "date-fns";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 const Appointments: React.FC = () => {
-  const { getAppointmentsFormmated } = useAppointment();
+  const { getAppointmentsFormmated, removeAppointment } = useAppointment();
   const [selectDate, setSelectDate] = useState<Date | null>(new Date());
 
-  const availableAppointments = useMemo(() => {
-    if (!selectDate) return;
-    return getAppointmentsFormmated(selectDate);
-  }, [getAppointmentsFormmated, selectDate]);
+  const availableAppointments = getAppointmentsFormmated(selectDate!);
 
-  console.log(availableAppointments);
+  const handleRemoveAppointment = (id: string) => {
+    console.log("aqui");
+    removeAppointment(id);
+  };
 
   return (
     <div className="flex flex-col py-20 px-28 items-center gap-8 col-span-2 w-full ">
@@ -71,6 +71,7 @@ const Appointments: React.FC = () => {
                         </span>
                       </div>
                       <IconButton
+                        onClick={() => handleRemoveAppointment(appointment.id)}
                         icon="Trash"
                         className="text-yellow"
                         iconSize={16}

@@ -5,7 +5,7 @@ import SelectButton from "@/components/select-button";
 import { useAppointment } from "@/hooks/appointments.hooks";
 import { UserSquareIcon } from "@phosphor-icons/react";
 import { format } from "date-fns";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 // import { Container } from './styles';
 
@@ -15,10 +15,7 @@ const ScheduleForm: React.FC = () => {
   const [clientName, setClientName] = useState<string>("");
   const { addAppointments, getAvailableAppointments } = useAppointment();
 
-  const availableAppointments = useMemo(() => {
-    if (!selectDate) return;
-    return getAvailableAppointments(selectDate);
-  }, [getAvailableAppointments, selectDate]);
+  const availableAppointments = getAvailableAppointments(selectDate!);
 
   function handleAdd() {
     if (!selectTime || !clientName) return;

@@ -3,7 +3,10 @@ import {
   addHours,
   addMinutes,
   differenceInSeconds,
+  endOfDay,
   format,
+  isAfter,
+  isBefore,
   startOfDay,
 } from "date-fns";
 import React, {
@@ -65,7 +68,7 @@ type AppointmentContextData = {
   appointments: Appointment[];
   getAppointmentsFormmated: (date: Date) => AppoitmentsDTO;
   addAppointments: (data: AppintmentInput) => void;
-  removeAppointments: (id: string) => void;
+  removeAppointment: (id: string) => void;
   getAvailableAppointments: (date: Date) => AvialablePeriod;
 };
 
@@ -87,6 +90,7 @@ const AppointmentProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const data = localStorage.getItem(APPOINTEMENT_KEY);
+    console.log("useeffecat local data");
     if (data) {
       function loadDate(data: string) {
         setAppointments(JSON.parse(data));
@@ -97,11 +101,13 @@ const AppointmentProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const getAppointmentsFormmated = useCallback(
     (date: Date) => {
-      const data = localStorage.getItem(APPOINTEMENT_KEY);
-      if (data) {
-        const dataParsed = JSON.parse(data) as Appointment[];
-        console.log(appointments);
-        const periods: AppoitmentsDTO = dataParsed.reduce(
+      const periods: AppoitmentsDTO = appointments
+        .filter(
+          (appointment) =>
+            isAfter(appointment.scheduleDate, startOfDay(date)) &&
+            isBefore(appointment.scheduleDate, endOfDay(date)),
+        )
+        .reduce(
           (prev, period) => {
             const hours = new Date(period.scheduleDate).getHours();
             if (hours <= 12) {
@@ -120,32 +126,26 @@ const AppointmentProvider: React.FC<PropsWithChildren> = ({ children }) => {
           } as AppoitmentsDTO,
         );
 
-        return periods;
-      }
-      return {
-        0: { title: "Manhã", appointments: [] },
-        1: { title: "Tarde", appointments: [] },
-        2: { title: "Noite", appointments: [] },
-      };
+      return periods;
     },
     [appointments],
   );
 
   const addAppointments = (data: AppintmentInput) => {
-    console.log("Salvando");
-    setAppointments((prevData) => [
-      ...prevData,
-      { ...data, id: "i" + prevData.length + 1, createdAt: new Date() },
-    ]);
+    const newValue = {
+      ...data,
+      id: "i" + appointments.length + 1,
+      createdAt: new Date(),
+    };
+    setAppointments((prevData) => [...prevData, newValue]);
     localStorage.setItem(
       APPOINTEMENT_KEY,
-      JSON.stringify([...appointments, data]),
+      JSON.stringify([...appointments, newValue]),
     );
   };
 
   const getAvailableAppointments = useCallback(
     (date: Date) => {
-      console.log("Get data");
       const dateStart = startOfDay(date);
       const formatedDate = format(date, "yyyy-MM-dd");
 
@@ -201,9 +201,12 @@ const AppointmentProvider: React.FC<PropsWithChildren> = ({ children }) => {
     [appointments],
   );
 
-  const removeAppointments = (id: string) => {
-    setAppointments((prevData) => prevData.filter((data) => data.id !== id));
+  const removeAppointment = (id: string) => {
+    const newDates = appointments.filter((data) => data.id !== id);
+    setAppointments(newDates);
+    localStorage.setItem(APPOINTEMENT_KEY, JSON.stringify(newDates));
   };
+
   return (
     <AppointmentContext.Provider
       value={{
@@ -211,7 +214,7 @@ const AppointmentProvider: React.FC<PropsWithChildren> = ({ children }) => {
         addAppointments,
         getAppointmentsFormmated,
         getAvailableAppointments,
-        removeAppointments,
+        removeAppointment,
       }}
     >
       {children}

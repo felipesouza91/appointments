@@ -35,7 +35,7 @@ const Appointments: React.FC = () => {
           />
         </div>
       </div>
-      <div className="flex flex-col w-full  gap-3">
+      <div className="flex flex-1 flex-col w-full  gap-3">
         {availableAppointments &&
           Object.entries(availableAppointments).map(([key, data]) => (
             <div className="border border-gray-600 rounded-lg" key={key}>

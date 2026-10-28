@@ -30,12 +30,12 @@ const ScheduleForm: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col gap-6 bg-gray-700 rounded-xl p-20 flex-wrap">
-      <div>
+    <div className="flex flex-col gap-6 bg-gray-700 rounded-xl p-20 w-full xl:w-150">
+      <div className="flex flex-col">
         <h2 className="text-2xl/normal text-gray-100 font-bold">
           Agende seu atendimento
         </h2>
-        <span className="text-base/snug text-gray-300 ">
+        <span className="text-base/snug text-gray-300 text-wrap">
           Selecione data, horário e informe o nome do cliente para criar o
           agendamento
         </span>
@@ -44,6 +44,7 @@ const ScheduleForm: React.FC = () => {
         <div className="flex flex-col gap-2">
           <span className="text-base/normal font-bold text-gray-200">Data</span>
           <InputDate
+            minDate={new Date()}
             selected={selectDate}
             onChange={setSelectDate}
             dateFormat="dd/MM/yyyy"

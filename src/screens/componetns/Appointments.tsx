@@ -17,7 +17,7 @@ const Appointments: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col py-20 px-28 items-center gap-8 col-span-2 w-full ">
+    <div className="flex flex-1 flex-col lg:py-20 lg:px-28 items-center gap-8">
       <div className="flex flex-col sm:flex-row  justify-between gap-3 w-full ">
         <div className="flex flex-col flex-1 gap-1">
           <h2 className="text-2xl/normal font-bold text-gray-100">

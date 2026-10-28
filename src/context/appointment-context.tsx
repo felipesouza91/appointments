@@ -171,7 +171,7 @@ const AppointmentProvider: React.FC<PropsWithChildren> = ({ children }) => {
             (appointment) =>
               differenceInSeconds(appointment.scheduleDate, period.date) === 0,
           );
-          if (exits) {
+          if (exits || isBefore(period.date, new Date())) {
             return { ...period, isScheduled: true };
           }
           return period;

@@ -2,7 +2,7 @@ import HomeScreen from "./screens/Home";
 
 function App() {
   return (
-    <main className="flex  items-center justify-center bg-gray-900 p-6 lg:p-10  h-auto lg:h-svh">
+    <main className="flex flex-1 items-center justify-center bg-gray-900 p-6 xl:p-10  h-auto 2xl:h-svh">
       <HomeScreen />
     </main>
   );
